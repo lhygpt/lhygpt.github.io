@@ -82,7 +82,7 @@ $(document).ready(function() {
       body: JSON.stringify({
         "messages": data.prompts,
         "model": "gpt-3.5-turbo",
-        "max_tokens": 4096,
+        "max_tokens": 1025,
         "temperature": 0.5,
         "top_p": 1,
         "n": 1,
