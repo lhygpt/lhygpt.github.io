@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>公告</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #f0f0f0;
+      --text-color: #333;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px #ccc;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .night-mode {
+      --bg-color: #222;
+      --text-color: #fff;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    #mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      outline: none;
+      background-color: #fff;
+      background-image: url(sun-icon.png);
+      background-size: cover;
+      transition: background-image 0.5s;
+    }
+
+    #mode-toggle.moon-icon {
+      background-image: url(moon-icon.png);
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      // 检查本地存储中是否有用户的选择，如果有，则应用相应的模式
+      if (localStorage.getItem("mode") === "night") {
+        $("body").addClass("night-mode");
+        $("#mode-toggle").addClass("moon-icon");
+      } else {
+        $("body").removeClass("night-mode");
+        $("#mode-toggle").addClass("sun-icon");
+      }
+
+      // 处理按钮点击事件
+      $("#mode-toggle").click(function() {
+        if ($("body").hasClass("night-mode")) {
+          $("body").removeClass("night-mode");
+          $("#mode-toggle").removeClass("moon-icon").addClass("sun-icon");
+          localStorage.setItem("mode", "day");
+        } else {
+          $("body").addClass("night-mode");
+          $("#mode-toggle").removeClass("sun-icon").addClass("moon-icon");
+          localStorage.setItem("mode", "night");
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>重要公告</h1>
+    <ol>
+      <li>如果在非国内地区使用此网站时遇到无法正常使用的情况，可以<a href="http://chatbot.theb.ai/">点此使用国外版chatgpt</a></li>
+      <li>本网站永久免费和开源</li>
+    </ol>
+  </div>
+  <button id="mode-toggle" class="sun-icon"></button>
+</body>
+</html>
