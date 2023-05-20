@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Openai API Key余额查询" />
+        <meta name="keywords" content="Openai API Key余额查询" />
+        <title>Openai API Key余额查询</title>
+        <link rel="icon" href="favicon.svg">
+        <link rel="stylesheet" href="style.css">
+        <script src="Many.js"></script>
+        <script src="One.js"></script>
+    </head>
+  <body>
+    <div class="content">
+        <h1 class="text-3xl font-semibold text-center mb-8 text-gradient">OpenAI API KEY余额查询(可批量)</h1>
+        <form>
+            <textarea id="api-key-input" class="form-control" placeholder="在此输入API-KEY，每行一个，格式：sk-xxxxxxxxxxxxxxx..."></textarea>
+            <div style="display: none;">
+                <select id="api-url-select">
+                    <option value="https://chatgpt.api.zcc.ee">【反代】 https://chatgpt.api.zcc.ee</option>
+                    <option value="https://api.openai.com">【官方,需科学】 https://api.openai.com</option>
+                    <option value="custom">自定义 ...</option></select>
+                <input type="text" id="custom-url-input" placeholder="请输入自定义API链接"></div>
+            <button type="button" style="display:inline-block; width: 100x;" onclick="sendRequest()">查询</button></form>
+        <table id="result-table">
+            <thead>
+                <tr>
+                    <th>API KEY:</th>
+                    <th style="width: 60px">总额度:</th>
+                    <th style="width: 60px">已使用:</th>
+                    <th style="width: 90px">剩余额度:</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script>
+      // 定义查询过的API-KEY列表
+      let queriedApiKeys = [];
+
+      async function checkBilling(apiKey) {
+        // 计算起始日期和结束日期
+        const now = new Date();
+        const startDate = new Date(now - 90 * 24 * 60 * 60 * 1000);
+        const endDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+        // 设置API请求URL和请求头
+        const urlSubscription = 'https://chatgpt.api.zcc.ee/v1/dashboard/billing/subscription'; // 查是否订阅
+        const urlBalance = 'https://chatgpt.api.zcc.ee/dashboard/billing/credit_grants'; // 查普通账单
+        const urlUsage = `https://chatgpt.api.zcc.ee/v1/dashboard/billing/usage?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`; // 查使用量
+        const headers = {
+          "Authorization": "Bearer " + apiKey,
+          "Content-Type": "application/json"
+        };
+
+        try {
+          // 获取API限额
+          let response = await fetch(urlSubscription, {headers});
+          if (!response.ok) {
+            console.log("您的账户已被封禁，请登录OpenAI进行查看。");
+            return;
+          }
+          const subscriptionData = await response.json();
+          const totalAmount = subscriptionData.hard_limit_usd;
+
+          // 获取已使用量
+          response = await fetch(urlUsage, {headers});
+          const usageData = await response.json();
+          const totalUsage = usageData.total_usage / 100;
+
+          // 计算剩余额度
+          const remaining = totalAmount - totalUsage;
+
+          // 输出总用量、总额及余额信息
+          console.log(`Total Amount: ${totalAmount.toFixed(2)}`);
+          console.log(`Used: ${totalUsage.toFixed(2)}`);
+          console.log(`Remaining: ${remaining.toFixed(2)}`);
+
+          return [totalAmount, totalUsage, remaining];
+        } catch (error) {
+          console.error(error);
+          return [null, null, null];
+        }
+      }
+
+      function formatDate(date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+      }
+
+      function sendRequest() {
+        let apiKeyInput = document.getElementById("api-key-input");
+        let apiUrlSelect = document.getElementById("api-url-select");
+        let customUrlInput = document.getElementById("custom-url-input");
+
+        if (apiKeyInput.value.trim() === "") {
+          alert("请填写API KEY");
+          return;
+        }
+
+        // 添加以下一行代码，清空之前的结果信息
+        document.getElementById("result-table").getElementsByTagName('tbody')[0].innerHTML = "";
+
+        let apiUrl = "";
+        if (apiUrlSelect.value === "custom") {
+          if (customUrlInput.value.trim() === "") {
+            alert("请设置API链接");
+            return;
+          } else {
+            apiUrl = customUrlInput.value.trim();
+          }
+        } else {
+          apiUrl = apiUrlSelect.value;
+        }
+
+        let apiKeys = apiKeyInput.value.trim().split("\n");
+
+        let tableBody = document.querySelector("#result-table tbody");
+        for (let i = 0; i < apiKeys.length; i++) {
+          let apiKey = apiKeys[i].trim();
+          // 判断是否已经查询过
+          if (queriedApiKeys.includes(apiKey)) {
+            console.log(`API KEY ${apiKey} 已查询过，跳过此次查询`);
+            continue;
+          }
+          queriedApiKeys.push(apiKey);
+
+          checkBilling(apiKey).then((data) => {
+            // update table with data
+            let row = document.createElement("tr");
+
+            // API KEY
+            let apiKeyCell = document.createElement("td");
+            apiKeyCell.textContent = apiKey;
+            row.appendChild(apiKeyCell);
+
+            if (data[0] === null) {
+              // ERROR MESSAGE
+              let errorMessageCell = document.createElement("td");
+              errorMessageCell.colSpan = "3";
+              errorMessageCell.classList.add("status-error");
+              errorMessageCell.textContent = "不正确或已失效的API-KEY";
+              row.appendChild(errorMessageCell);
+            } else {
+              // TOTAL GRANTED
+              let totalGrantedCell = document.createElement("td");
+              totalGrantedCell.textContent = data[0].toFixed(2);
+              row.appendChild(totalGrantedCell);
+
+              // TOTAL USED
+              let totalUsedCell = document.createElement("td");
+              totalUsedCell.textContent = data[1].toFixed(2);
+              row.appendChild(totalUsedCell);
+
+              // TOTAL AVAILABLE
+              let totalAvailableCell = document.createElement("td");
+              totalAvailableCell.textContent = data[2].toFixed(2);
+              row.appendChild(totalAvailableCell);
+            }
+
+            tableBody.appendChild(row);
+
+            // 添加以下代码，查询完成后删除已查询的API-KEY
+            if (i === apiKeys.length - 1) {
+              queriedApiKeys = [];
+            }
+          }).catch((error) => {
+            console.error(error);
+            // update table with error message
+            let row = document.createElement("tr");
+            let apiKeyCell = document.createElement("td");
+            apiKeyCell.textContent = apiKey;
+            row.appendChild(apiKeyCell);
+
+            let errorMessageCell = document.createElement("td");
+            errorMessageCell.colSpan = "3";
+            errorMessageCell.style.width = "90px";
+            errorMessageCell.classList.add("status-error");
+            errorMessageCell.textContent =
+              "账户已被封禁，请登录OpenAI进行查看。";
+            row.appendChild(errorMessageCell);
+
+            tableBody.appendChild(row);
+
+            // 添加以下代码，查询完成后删除已查询的API-KEY
+            if (i === apiKeys.length - 1) {
+              queriedApiKeys = [];
+            }
+          });
+        }
+      }
+
+      let apiUrlSelect = document.getElementById("api-url-select");
+      let customUrlInput = document.getElementById("custom-url-input");
+
+      apiUrlSelect.addEventListener("change", function () {
+        if (apiUrlSelect.value === "custom") {
+          customUrlInput.style.display = "inline-block";
+          customUrlInput.style.marginTop = "5px";
+        } else {
+          customUrlInput.style.display = "none";
+        }
+      });
+      //原网站:http://q.hellogpt.me/
+    </script>
+
+ </script>
+
+</body></html>
