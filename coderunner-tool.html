@@ -1,0 +1,228 @@
+<!DOCTYPE html">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="html5，css3，js，javascript，python，jquery，html5+css3+js，html5在线运行，在线测试，html在线测试工具，源代码测试，行运" />
+<meta name="description" content="zouni.run是最好的html5+css3+js在线行运测试工具，具有可全屏模式，真正的所见即所得的html、css、javascript学习工具。" />
+<title>html+css+js在线测试工具 - zouni.run走你！</title>
+<link rel="stylesheet" type="text/css" href="jquery-ui.min.css" />
+<style type="text/css">
+body, div, dl, dt, dd, ul, ol, li, h2, pre, input, textarea, p, iframe {padding:0; margin:0;} 
+#editor{
+    font: 12px Verdana, Arial, Helvetica, sans-serif;
+    background:#4180B6;
+    overflow:hidden;
+    }
+#test{
+    width:100%;
+    background:#4180B6;
+    }
+#top{
+    height:40px;
+    width:100%;
+    background:#C8D7E3;
+    }
+#top input {
+    background:yellow;
+    color:#ff0000;
+    width:180px;
+    height:30px;
+    font:bold 12px Verdana, Arial, Helvetica, sans-serif;
+    }
+#top p {line-height: 40px;}
+#top span {margin:0 0 0 10px;color:#293D6B;}
+#code {
+    float:left;
+    width:50%;
+    height:530px;
+    background:#2C587C;
+    }
+div h2 {
+    float:left;
+    line-height: 30px;
+    color:#eee;
+    font-size:14px;
+    padding-left: 10px;
+    }
+#code2 textarea{
+    float:left;
+    left:0px;
+    padding:5px 0 0 5px;
+    /*border-right: 1px solid #808080;*/
+    width:100%;
+    overflow:auto;
+    height:94.33962264150943%;
+    font:12px "Courier New", Courier, monospace;
+    resize:none;
+    }
+#code2 textarea:hover{
+    background-color:#ecffe4;
+    }
+#result  {
+    float:right;
+    width:50%;
+    background:#880000;
+    }
+#result p{
+    float:right;
+    margin: 5px 10px 0 0;
+    font:bold 12px Verdana, Arial, Helvetica, sans-serif;
+}
+#result iframe{
+    width:100%;
+    height:500px;
+    background:#fff;
+    border:0px;
+    border-left: 1px solid #808080;
+    resize:vertical;
+    }
+</style>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script src="jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?a67164dbb122ad11ec5aec5c2a2dc2aa";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body id="editor">
+<div id="test">
+<div id="top">
+<p><span><input name="button" type="button" onclick="runCode()" value="运行"></input></span><span>（请在下面的文本框中编辑您的代码，然后单击此按钮测试结果。）</span></p>
+</div>
+<div id="code">
+<h2>编辑您的代码：</h2>
+<pre id="code2" class="ace_editor" style="height:470px; clear:both;"><textarea name="c" id="c" class="ace_text-input">
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>html+css+js在线测试工具</title>
+<link rel="stylesheet" type="text/css" href="http://#" />         <!--可引用外部css-->
+<script type="text/javascript" src="http://#" ></script>          <!--可引用外部JS，以及jquery等库-->
+                                                                  <!-- 各种JS库的引用地址：www.bootcdn.cn -->
+<script>
+        /* 自写js */
+</script>
+<style>
+        /* 自写css */
+</style>
+
+</head>
+<body>
+
+        <h2>本在线 html+css+js 测试学习工具：</h2>
+        <h4>1、即时修改、运行、效果预览（支持新开窗口）。</h4>
+        <h4>2、可自写css/js，或引用外部CSS/JS/JQuery库等。</h4>
+        <h4>3、支持窗口拖放。</h4>
+        <h4 style="color:red;">4、新增：html智能补全 + 高亮显示。（手写测试更方便了）</h4>
+
+</body>
+</html>
+</textarea></pre>
+
+        <script>
+            //初始化对象
+            editor = ace.edit("code2");
+            
+            //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+            theme = "monokai"
+            language = "html"
+            editor.setTheme("ace/theme/" + theme);
+            editor.session.setMode("ace/mode/" + language);
+            
+            //字体大小
+            editor.setFontSize(12);
+            
+            //设置只读（true时只读，用于展示代码）
+            editor.setReadOnly(false); 
+            
+            //自动换行,设置为off关闭
+            editor.setOption("wrap", "free")
+            
+            //启用提示菜单
+            ace.require("ace/ext/language_tools");
+            editor.setOptions({
+                    enableBasicAutocompletion: true,
+                    enableSnippets: true,
+                    enableLiveAutocompletion: true
+                });
+        </script>
+<div style="position: absolute; left:50%; text-align:center; width:250px; overflow:hidden; color:#88c5f9; text-shadow:-1px 1px 0px rgba(0, 0, 0, 1); font-size:14px; margin:5px 20px 0 -125px;">由zouni.run/提供技术支持 ^_^</div>
+</div>
+<div id="result">
+<h2>查看结果:</h2>
+<p><span><input name="button" type="button" onclick="newWin()" value="新窗口打开"></input></span></p>
+<iframe name="i" id="i" src=""></iframe>
+</div>
+
+</div>
+<div style="position:fixed; bottom:5px; margin:0 auto; width:100%;text-align:center;color:#88c8ff; text-shadow:-1px 1px 0px rgb(0, 0, 0); font-size:20px;">前端代码运行器</div>
+
+</body>
+</html>
+<script type="text/javascript">
+//JQuery UI 设置拖拽对象
+$(function() {
+  $( "#code" ).resizable();
+});
+//关联div 的变化逻辑函数
+function change(){
+  var winW = document.body.clientWidth;
+  var divW = document.getElementById("code").offsetWidth;
+  var newdivW = winW - divW + "px";
+  var divH = document.getElementById("code").offsetHeight;
+  var newdivH = divH-30 + "px";
+  qzh = divH-60+"px";
+  $("#c").css("height",newdivH);
+  $("#result").css("width",newdivW);
+  $("#code2").css("height",qzh);
+  editor.resize(); //触发ACE显示区尺寸缩放
+}
+
+
+//监视div变化,运行函数
+//$("#code").resize(function(){
+//change();
+//});
+
+//监视浏览器窗口变化,运行函数
+$(document).ready(function(){
+$(window).resize(function(){
+change();
+});
+});
+//源代码获取、运行
+function runCode() {
+//obj = document.getElementById("c"); //textarea有value值
+//obj = document.getElementById("c").innerHTML;  //可获取任何内容
+var obj = editor.getValue();
+if(obj==""){
+alert("请输入要运行的代码内容");
+return false;}
+var winname = document.getElementById("i").contentWindow;
+winname.document.open('text/html', 'replace');
+winname.document.writeln(obj);
+//winname.document.writeln(obj);   //配合innerHTML获取的内容使用。
+winname.document.close();
+}
+
+//新开窗口运行
+function newWin() {
+//obj = document.getElementById("c"); 
+var obj = editor.getValue();
+if(obj==""){
+alert("请输入要运行的代码内容");
+return false;}
+var newWin = window.open('','','');
+newWin.opener = null; // 防止代码对论谈页面修改
+newWin.document.write(obj);
+newWin.document.close();
+}
+runCode();
+</script>
