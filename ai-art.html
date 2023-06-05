@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI绘图</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>AI绘图</h1>
+    <p>请输入图像描述</p>
+    <input id="input" type="text" placeholder="例如：一只狗在草地上玩耍">
+    <button id="generate">生成图像</button>
+    <div>
+        <img id="image-container" src="" alt="">
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#generate').click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "https://api.openai.com/v1/images/generations",
+                    headers: {
+                        "Authorization": "Bearer YOUR_API_KEY_HERE",
+                        "Content-Type": "application/json"
+                    },
+                    data: JSON.stringify({
+                        "model": "image-alpha-001",
+                        "prompt": $('#input').val(),
+                        "num_images": 1,
+                        "size": "512x512",
+                        "response_format": "url"
+                    }),
+                    success: function(response) {
+                        $('#image-container').attr('src', response.data[0].url);
+                    },
+                    error: function(error) {
+                        alert('生成图像失败： ' + error.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
