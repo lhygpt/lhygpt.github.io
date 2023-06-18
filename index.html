@@ -28,6 +28,9 @@
 <body>
 	<div class="center">
 	    <h1>欢迎来到BoscoAi!</h1>
+	    	</div>
+  <button class="sponsor-button button" onclick="showSponsorDialog()">赞助我们</button>
+</div>
 	    <H4>请选择你需要的产品服务：</h4>
 		AI绘图：<a href="https://jsbin.com/waloraw" class="button">🔥AI绘图机器人(仅第一次访问需要VPN)🔥</a></br>
 		普通版ChatGPT：<a href="https://lhygpt.onrender.com/" class="button">普通版聊天机器人1(推荐新手使用)</a>
@@ -35,6 +38,68 @@
 		高级版ChatGPT：<a href="https://boscosite.github.io/" class="button">高级版聊天机器人(需要输入自己的api密钥)</a></br>
 		其他服务：<a href="https://lhygpt.github.io/check-apikey" class="button">OpenAI api key余额查询器</a>
 学习交流社区：<a href="https://support.qq.com/products/596166" class="button">BoscoAI 学习交流社区</a>
-	</div>
+
+
+<div id="sponsor-dialog" class="sponsor-dialog">
+  <div class="sponsor-dialog-content">
+    <span class="close" onclick="hideSponsorDialog()">&times;</span>
+    <img src="https://example.com/sponsor-image.jpg" alt="赞赏码">
+    <p>感谢您的支持，让我们一起让这个世界变得更美好!</p>
+  </div>
+</div>
+
+<script>
+function showSponsorDialog() {
+  document.getElementById("sponsor-dialog").style.display = "block";
+}
+
+function hideSponsorDialog() {
+  document.getElementById("sponsor-dialog").style.display = "none";
+}
+</script>
+
+<style>
+.sponsor-dialog {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.sponsor-dialog-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  text-align: center;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>
 </body>
 </html>
