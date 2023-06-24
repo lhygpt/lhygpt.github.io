@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ChatGPT-4</title>
+    <style>
+        /* 整个页面的背景色 */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* 页面标题的样式 */
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #4682b4;
+        }
+
+        /* 输入框和发送按钮的样式 */
+        #search-input {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #search-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4682b4;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 消息框的样式 */
+        #message, #answer {
+            font-size: 18px;
+            color: #333;
+        }
+
+        #message {
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #answer {
+            background-color: #4682b4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        /* 页面底部的样式 */
+        #pan {
+            text-align: center;
+            margin-top: 50px;
+            color: #999;
+        }
+
+        #pan a {
+            color: #4682b4;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#search-btn").click(function() {
+                var input = $("#search-input").val();
+                if (input !== "") {
+                    $("#search-btn").prop("disabled", true);
+                    var url = "https://wmapi.wenbo.li/api/gpt/four/?message=" + input;
+                    $.getJSON(url, function(result) {
+                        $("#message").text(result.message);
+                        $("#answer").text(result.answer);
+                        $("#search-btn").prop("disabled", false);
+                    });
+                }
+            });
+
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+
+            if (hours >= 18 || hours < 5) {
+                document.body.style.backgroundColor = "#000";
+                document.body.style.color = "#fff";
+            } else {
+                document.body.style.backgroundColor = "#f5f5f5";
+                document.body.style.color = "#333";
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>ChatGPT-4</h1>
+    <input type="text" id="search-input" placeholder="问点什么吧...">
+    <button id="search-btn">发送</button>
+    <div id="message"></div>
+    <div id="answer"></div>
+    <p id="pan">欢迎使用GPT-4，此项目为公益项目</br>
+    Powered by <a href="http://kemiweb.0aii.com/">Kemiweb</a> and Pear API<!-- 这个禁止删除 -->
+    </p>
+</body>
+</html>
