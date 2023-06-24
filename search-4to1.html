@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>4合1超级搜索引擎</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      background-color: #f2f2f2;
+      background-image: url('https://cdn.pixabay.com/photo/2015/03/26/09/47/sky-690293_960_720.jpg');
+      background-size: cover;
+      background-position: center center;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 20px;
+      border: none;
+      border-radius: 5px;
+      margin-right: 10px;
+      width: 70%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+    button[type="submit"] {
+      padding: 10px;
+      font-size: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      width: 20%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    button[type="submit"]:hover {
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+    iframe {
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      transition: box-shadow 0.3s ease-in-out;
+      width: 70%;
+      height: 500px;
+    }
+    iframe:hover {
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: stretch;
+      width: 100%;
+      height: 100vh;
+    }
+    .container > div {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>4合1超级搜索引擎</h1>
+  <form onsubmit="return search();">
+    <input type="text" id="searchTerm" placeholder="请输入搜索内容">
+    <button type="submit">搜索</button>
+  </form>
+  <div class="container">
+    <div>
+      <iframe id="bing" src="https://www.bing.com/search?q="></iframe>
+      <iframe id="360" src="https://www.so.com/s?q="></iframe>
+    </div>
+    <div>
+        <iframe id="sogou" src="https://www.sogou.com/web?query="></iframe>
+      <iframe id="shenma" src="https://m.sm.cn/s?q="></iframe>
+    </div>
+  </div>
+  <script>
+    function search() {
+      var searchTerm = document.getElementById("searchTerm").value;
+      var sogouIframe = document.getElementById("sogou");
+      var qihuIframe = document.getElementById("360");
+      var shenmaIframe = document.getElementById("shenma");
+      var bingIframe = document.getElementById("bing");
+      sogouIframe.src = "https://www.sogou.com/web?query=" + searchTerm;
+      qihuIframe.src = "https://www.so.com/s?q=" + searchTerm;
+      shenmaIframe.src = "https://m.sm.cn/s?q=" + searchTerm;
+      bingIframe.src = "https://www.bing.com/search?q=" + searchTerm;
+      return false;
+    }
+  </script>
+</body>
+</html>
