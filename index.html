@@ -1,84 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bosco AI引导页</title>
-    <style>
-        body {
-            background-image: url();
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        /* 其他样式 */
-    </style>
-        <style>
-        html{overflow-x:hidden;-webkit-text-size-adjust:none;min-height:100%;}body{-webkit-tap-highlight-color:rgba(0,0,0,0);background-color:#F2F2F2;margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;}p{line-height:1.5;}.main{min-height:100vh;max-width:769px;padding:1rem;margin-left:auto;margin-right:auto;background-color:white;}button.accordion{background-color:#eee;color:#444;cursor:pointer;padding:18px;width:100%;border:none;text-align:left;outline:none;font-size:15px;transition:0.4s;position:relative;}button.accordion.active,button.accordion:hover{background-color:#ddd;}div.panel{padding:0 18px;background-color:white;max-height:0;overflow:hidden;transition:max-height 0.2s ease-out;}button.accordion:after{content:'\002B';color:#777;font-weight:bold;margin-left:5px;position:absolute;right:15px;top:19px;}button.accordion.active:after{content:"\2212";}
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bosco AI引导页</title>
+  <style>
+    body {
+      background-image: url();
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Roboto', sans-serif;
+      color: #555;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 其他样式 */
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px solid #ccc;
+      margin: 20px 0;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .accordion {
+      background-color: #f2f2f2;
+      color: #333;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 16px;
+      transition: 0.4s;
+      position: relative;
+    }
+
+    .accordion.active,
+    .accordion:hover {
+      background-color:#ddd;
+    }
+
+    .panel {
+      padding: 0 18px;
+      background-color: white;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
+
+    .accordion:after {
+      content: '\002B';
+      color: #777;
+      font-weight: bold;
+      margin-left: 5px;
+      position: absolute;
+      right: 15px;
+      top: 19px;
+    }
+
+    .accordion.active:after {
+      content: "\2212";
+    }
+
+    a {
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: #333;
+    }
+
+    .hitokoto {
+      font-size: 20px;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .hitokoto span {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .hitokoto span a {
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .hitokoto span a:hover {
+      color: #333;
+    }
+  </style>
 </head>
+
 <body>
-<div class="main">
+  <div class="container">
     <h1 class="title">Bosco AI引导页</h1>
+    <hr>
+    <div class="hitokoto">
+      <span id="hitokoto">加载中...</span>
+      <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+    </div>
+    <hr>
     <p>请选择你需要的AI服务：</p>
-    <button class="accordion">热门推荐
-    </button>
-    <div class="panel">
-        <p>
-            <a href="https://lhygpt.github.io/gpt4">ChatGPT 4
-            </a>
-        </p>
-        <p>
-            <a href="https://lhygpt.onrender.com/">ChatGPT 3.5
-            </a>
-        </p>
-        <p>
-            <a href="https://output.jsbin.com/waloraw">AI绘图(DALL-E)
-            </a>
-        </p>
+    <button class="accordion active">热门推荐</button>
+    <div class="panel" style="max-height: 1000px;">
+      <p><a href="https://lhygpt.github.io/gpt4">ChatGPT 4</a></p>
+      <p><a href="https://lhygpt.onrender.com/">ChatGPT 3.5</a></p>
+      <p><a href="https://output.jsbin.com/waloraw">AI绘图(DALL-E)</a></p>
     </div>
 
-    <button class="accordion">普通版ChatGPT
-    </button>
+    <button class="accordion">普通版ChatGPT</button>
     <div class="panel">
-        <p>
-            <a href="https://lhygpt.onrender.com/">普通版ChatGPT 1
-            </a>
-        </p>
-        <p>
-            <a href="https://lhygpt.github.io/chat">普通版ChatGPT 2
-            </a>
-        </p>
+      <p><a href="https://lhygpt.onrender.com/">普通版ChatGPT 1</a></p>
+      <p><a href="https://lhygpt.github.io/chat">普通版ChatGPT 2</a></p>
     </div>
 
-    <button class="accordion">高级版ChatGPT
-    </button>
+    <button class="accordion">高级版ChatGPT</button>
     <div class="panel">
-        <p>
-            <a href="https://boscosite.github.io/">高级版ChatGPT</a>
-        </p>
+      <p><a href="https://boscosite.github.io/">高级版ChatGPT</a></p>
     </div>
 
-    <button class="accordion">其他服务
-    </button>
+    <button class="accordion">其他服务</button>
     <div class="panel">
-        <p>
-            <a href="https://lhygpt.github.io/check-apikey">OpenAI api key余额查询器
-            </a>
-        </p>
+      <p><a href="https://lhygpt.github.io/check-apikey">OpenAI api key余额查询器</a></p>
     </div>
 
-    <button class="accordion">学习交流社区
-    </button>
+    <button class="accordion">学习交流社区</button>
     <div class="panel">
-        <p>
-            <a href="https://support.qq.com/products/596166">BoscoAI 学习交流社区</a>
-        </p>
+      <p><a href="https://support.qq.com/products/596166">BoscoAI 学习交流社区</a></p>
     </div>
-</div>
+  </div>
 
-<script>
-    !function(){for(var t=document.getElementsByClassName("accordion"),e=0,i=t.length;e<i;e++)t[e].onclick=function(){this.classList.toggle("active");var t=this.nextElementSibling;t.style.maxHeight?t.style.maxHeight="":t.style.maxHeight=t.scrollHeight+"px"}}();
-</script>
-</body>
+  <script>
+    ! function() {
+      for (var t = document.getElementsByClassName("accordion"), e = 0, i = t.length; e < i; e++) t[e].onclick = function() { this.classList.toggle("active"); var t = this.nextElementSibling; t.style.maxHeight ? t.style.maxHeight = "" : t.style.maxHeight = t.scrollHeight + "px" } }(); </script> </body>
+
 </html>
