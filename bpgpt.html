@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPT4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        #app {
+            text-align: center;
+            width: 70%;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%; /* Make the input field wider */
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .loading {
+            display: none;
+            margin: 20px auto;
+            border: 6px solid #ccc;
+            border-radius: 50%;
+            border-top: 6px solid #3498db;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        /* Loading animation */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Button animation */
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Rainbow text */
+        .rainbow-text {
+            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Position text in right top corner */
+        .corner-text {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>Welcome to GPT4</h1>
+    <input type="text" id="message" placeholder="Enter your message"/>
+    <button id="sendBtn" onclick="sendMessage()">Send Message</button>
+    <div id="result"></div>
+    <div class="loading" id="spinner"></div>
+
+    <p class="corner-text rainbow-text">白嫖君</p>
+    <p class="corner-text" style="top: 30px;">更多免费资源搜QQ 群: 183807510</p>
+</div>
+
+<script>
+    function sendMessage() {
+        var btn = document.getElementById('sendBtn');
+        var spinner = document.getElementById('spinner');
+        var url = "https://wmapi.wenbo.li/api/gpt/four/";
+        var message = document.getElementById('message').value;
+        var data = "message=" + message;
+
+        btn.disabled = true; // Disables the button until we get a response
+        btn.style.opacity = "0.5";
+        spinner.style.display = 'block'; // Show loading spinner
+
+        var xhrPost = new XMLHttpRequest();
+        xhrPost.open('POST', url, true);
+        xhrPost.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhrPost.send(data);
+        xhrPost.onreadystatechange = function() {
+            if (xhrPost.readyState == 4 && xhrPost.status == 200) {
+                //成功
+                var result = JSON.parse(xhrPost.responseText);
+                document.getElementById('result').innerHTML = result.answer;
+            } else {
+                //失败
+                document.getElementById('result').innerHTML = 'Error occurred';
+            }
+            btn.disabled = false; // Re-enables the button
+            btn.style.opacity = "1";
+            spinner.style.display = 'none'; // Hide loading spinner
+        };
+    }
+</script>
+
+</body>
+</html>
