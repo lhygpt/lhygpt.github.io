@@ -1,122 +1,166 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="zh">
+<head >
     <meta charset="UTF-8">
     <title>GPT4</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #333;
         }
         #app {
-            text-align: center;
-            width: 70%;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
         }
-        input {
+        .chatbox {
+            border: 1px solid black;
+            height: 500px;
+            margin-bottom: 10px;
             padding: 10px;
-            font-size: 16px;
-            width: 100%; /* Make the input field wider */
+            overflow-y: auto;
+            background-color: white;
         }
         button {
-            padding: 10px;
+            margin-top: 10px;
+            padding: 5px 15px;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
             font-size: 16px;
-            margin: 5px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition-duration: 0.4s;
+            background-color: #4CAF50; 
         }
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
+        button:hover {
+            background-color: white; 
+            color: black; 
+            border: 2px solid #4CAF50;
         }
-        .loading {
-            display: none;
-            margin: 20px auto;
-            border: 6px solid #ccc;
-            border-radius: 50%;
-            border-top: 6px solid #3498db;
-            width: 60px;
-            height: 60px;
-            -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
+        input[type=text] {
+            width: 60%;
+            padding: 5px;
         }
+        .night-mode .chatbox,
+        .night-mode body {
+            background-color: #333;
+            color: white;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            display: none; /* Hide by default */
+        }
+        .progress-bar-inner {
+            height: 5px;
+            width: 0;
+            background-color: #4caf50;
+        }
+		.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        /* Loading animation */
-        @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-        }
+input[type=text] {
+    width: 60%;
+    margin-right: 10px;  /* Add some space between the input and the buttons */
+}
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Button animation */
-        button:active {
-            transform: scale(0.95);
-        }
-
-        /* Rainbow text */
-        .rainbow-text {
-            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        /* Position text in right top corner */
-        .corner-text {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
     </style>
 </head>
 <body>
 <div id="app">
-    <h1>Welcome to GPT4</h1>
-    <input type="text" id="message" placeholder="Enter your message"/>
-    <button id="sendBtn" onclick="sendMessage()">Send Message</button>
-    <div id="result"></div>
-    <div class="loading" id="spinner"></div>
-
-    <p class="corner-text rainbow-text">白嫖君</p>
-    <p class="corner-text" style="top: 30px;">更多免费资源搜QQ 群: 183807510</p>
+    <h1>欢迎使用GPT4 白嫖君群号:183807510</h1>
+    <button onclick="toggleNightMode()">切换日夜模式</button>
+    <div class="chatbox" id="chatbox"></div>
+		<div class="input-container">
+    <input type="text" id="message" placeholder="请输入你的消息"/>
+    <button id="sendBtn" onclick="sendMessage()">➤</button>
+    <button onclick="clearChat()">清除对话</button>
+		</div>
+    <br>
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-bar-inner" id="progressBarInner"></div>
+    </div>
 </div>
 
 <script>
-    function sendMessage() {
-        var btn = document.getElementById('sendBtn');
-        var spinner = document.getElementById('spinner');
-        var url = "https://wmapi.wenbo.li/api/gpt/four/";
-        var message = document.getElementById('message').value;
-        var data = "message=" + message;
+var chatHistory = localStorage.getItem('chatHistory') || '';
 
-        btn.disabled = true; // Disables the button until we get a response
-        btn.style.opacity = "0.5";
-        spinner.style.display = 'block'; // Show loading spinner
-
-        var xhrPost = new XMLHttpRequest();
-        xhrPost.open('POST', url, true);
-        xhrPost.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhrPost.send(data);
-        xhrPost.onreadystatechange = function() {
-            if (xhrPost.readyState == 4 && xhrPost.status == 200) {
-                //成功
-                var result = JSON.parse(xhrPost.responseText);
-                document.getElementById('result').innerHTML = result.answer;
-            } else {
-                //失败
-                document.getElementById('result').innerHTML = 'Error occurred';
-            }
-            btn.disabled = false; // Re-enables the button
-            btn.style.opacity = "1";
-            spinner.style.display = 'none'; // Hide loading spinner
-        };
+document.getElementById('message').addEventListener('keydown', function(e) {
+    if (e.key == 'Enter' ) {
+       // e.preventDefault();
+        sendMessage();
     }
+});
+
+function sendMessage() {
+    var btn = document.getElementById('sendBtn');
+    var msgBox = document.getElementById('message');
+    var chatbox = document.getElementById('chatbox');
+
+    if (msgBox.value.trim() === '') return;
+
+    chatHistory += '\nUser: ' + msgBox.value;
+    chatbox.innerText = chatHistory;
+    msgBox.value = "";
+
+    btn.disabled = true; 
+    btn.style.opacity = "0.5";
+
+    var xhrPost = new XMLHttpRequest();
+    xhrPost.open('POST', "https://wmapi.wenbo.li/api/gpt/four/", true);
+    xhrPost.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhrPost.send("message=" + encodeURIComponent(chatHistory));
+
+    xhrPost.onreadystatechange = function() {
+        if (xhrPost.readyState == 4 && xhrPost.status == 200) { 
+            var result = JSON.parse(xhrPost.responseText);
+
+            chatHistory += '\n' + result.answer;
+            chatbox.innerText = chatHistory;
+            localStorage.setItem('chatHistory', chatHistory);
+
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    };
+
+    xhrPost.onprogress = function(event) {
+        if (event.lengthComputable) {
+            document.getElementById("progressBarInner").style.width = event.loaded / event.total * 100 + "%";
+        }
+    };
+
+    xhrPost.onloadstart = function(event) {
+        document.getElementById("progressBar").style.display = "block";
+    };
+
+    xhrPost.onloadend = function(event) {
+        document.getElementById("progressBar").style.display = "none";
+    };
+}
+
+// If there is saved chat history, display it on page load
+if (chatHistory) {
+    document.getElementById('chatbox').innerText = chatHistory;
+}
+
+function clearChat() {
+    localStorage.removeItem('chatHistory');
+    document.getElementById('chatbox').innerText = '';
+    chatHistory = '';
+}
+
+function toggleNightMode() {
+    document.body.classList.toggle("night-mode");
+}
 </script>
 
 </body>
