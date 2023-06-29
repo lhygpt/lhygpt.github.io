@@ -2,17 +2,19 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ChatGPT 4</title>
 <style>
 body {
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 transition: background-color 0.3s, color 0.3s;
-padding: 30px;
+padding: 1em;
 background-color: #111;
 color: lightgray;
 }
 #app {
 max-width: 800px;
+width: 100%;
 margin: auto;
 padding: 20px;
 background-color: #333;
@@ -21,7 +23,7 @@ box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
 }
 .chatbox {
 border: 1px solid #555;
-height: 500px;
+height: 50vh;
 margin-bottom: 10px;
 padding: 10px;
 border-radius: 15px;
@@ -30,6 +32,7 @@ background-color: #222;
 color: #fff;
 }
 button {
+width: 100%;
 margin-top: 10px;
 padding: 5px 15px;
 border: none;
@@ -40,11 +43,8 @@ cursor: pointer;
 transition-duration: 0.4s;
 box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
 }
-button:hover {
-background-color: #45a049;
-}
 input[type=text] {
-width: 60%;
+width: 100%;
 padding: 5px;
 border-radius: 15px;
 border: none;
@@ -52,27 +52,16 @@ background-color: #555;
 color: lightgray;
 box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
 }
-.progress-bar {
-width: 100%;
-height: 5px;
-background-color: #999;
-display: none;
-}
-.progress-bar-inner {
-height: 5px;
-width: 0;
-background-color: #4caf50;
-border-radius: 50px;
-}
 .input-container {
-display: flex;
-justify-content: space-between;
-align-items: center;
+margin-top: 10px;
 }
-input[type=text] {
-width: 60%;
-margin-right: 10px;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* this line will center the content vertically */
 }
+
 </style>
 </head>
 <body>
@@ -83,10 +72,6 @@ margin-right: 10px;
 <input type="text" id="message" placeholder="请输入你的消息"/>
 <button id="sendBtn" onclick="sendMessage()">发送</button>
 <button onclick="clearChat()" style="color:red;">清除对话</button>
-</div>
-<br>
-<div class="progress-bar" id="progressBar">
-<div class="progress-bar-inner" id="progressBarInner"></div>
 </div>
 </div>
 <script>
