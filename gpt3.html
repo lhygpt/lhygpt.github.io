@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT 3.5</title>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+transition: background-color 0.3s, color 0.3s;
+padding: 1em;
+background-color: #111;
+color: lightgray;
+}
+#app {
+max-width: 800px;
+width: 100%;
+margin: auto;
+padding: 20px;
+background-color: #333;
+border-radius: 25px;
+box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+}
+.chatbox {
+border: 1px solid #555;
+height: 50vh;
+margin-bottom: 10px;
+padding: 10px;
+border-radius: 15px;
+overflow-y: auto;
+background-color: #222;
+color: #fff;
+}
+button {
+width: 100%;
+margin-top: 10px;
+padding: 5px 15px;
+border: none;
+color: white;
+background-color: #4CAF50;
+border-radius: 15px;
+cursor: pointer;
+transition-duration: 0.4s;
+box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+}
+input[type=text] {
+width: 100%;
+padding: 5px;
+border-radius: 15px;
+border: none;
+background-color: #555;
+color: lightgray;
+box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+}
+.input-container {
+margin-top: 10px;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* this line will center the content vertically */
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+<h1 style="text-align:center; color: #4CAF50;">ChatGPT 3.5</h1>
+<div class="chatbox" id="chatbox"></div>
+<div class="input-container">
+<input type="text" id="message" placeholder="请输入你的消息"/>
+<button id="sendBtn" onclick="sendMessage()">发送</button>
+<button onclick="clearChat()" style="color:red;">清除对话</button>
+</div>
+</div>
+<script>
+var chatHistory = localStorage.getItem('chatHistory') || '';
+
+document.getElementById('message').addEventListener('keydown', function(e) {
+    if (e.key == 'Enter' ) {
+       // e.preventDefault();
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    var btn = document.getElementById('sendBtn');
+    var msgBox = document.getElementById('message');
+    var chatbox = document.getElementById('chatbox');
+
+    if (msgBox.value.trim() === '') return;
+
+    chatHistory += '\nUser: ' + msgBox.value;
+    chatbox.innerText = chatHistory;
+    msgBox.value = "";
+
+    btn.disabled = true; 
+    btn.style.opacity = "0.5";
+
+    var xhrPost = new XMLHttpRequest();
+    xhrPost.open('POST', "https://wmapi.wenbo.li/api/gpt/", true);
+    xhrPost.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhrPost.send("message=" + encodeURIComponent(chatHistory));
+
+    xhrPost.onreadystatechange = function() {
+        if (xhrPost.readyState == 4 && xhrPost.status == 200) { 
+            var result = JSON.parse(xhrPost.responseText);
+
+            chatHistory += '\n' + result.answer;
+            chatbox.innerText = chatHistory;
+            localStorage.setItem('chatHistory', chatHistory);
+
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    };
+
+    xhrPost.onprogress = function(event) {
+        if (event.lengthComputable) {
+            document.getElementById("progressBarInner").style.width = event.loaded / event.total * 100 + "%";
+        }
+    };
+
+    xhrPost.onloadstart = function(event) {
+        document.getElementById("progressBar").style.display = "block";
+    };
+
+    xhrPost.onloadend = function(event) {
+        document.getElementById("progressBar").style.display = "none";
+    };
+}
+
+// If there is saved chat history, display it on page load
+if (chatHistory) {
+    document.getElementById('chatbox').innerText = chatHistory;
+}
+
+function clearChat() {
+    localStorage.removeItem('chatHistory');
+    document.getElementById('chatbox').innerText = '';
+    chatHistory = '';
+}
+
+function toggleNightMode() {
+    document.body.classList.toggle("night-mode");
+}
+</script>
+</body>
+</html>
