@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bosco AI搜索引擎</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        #chat-box {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+        }
+        #search-results {
+            display: flex;
+            justify-content: space-between;
+            width: 600px;
+            height: 400px;
+        }
+        .search-result {
+            width: 48%;
+            height: 100%;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+        input[type="text"] {
+            width: 400px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bosco AI搜索引擎</h1>
+    <div id="container">
+        <div>
+            <input type="text" id="message-input">
+            <button id="send-button">搜索</button>
+        </div>
+        </br>
+        <div id="chat-box"></div>
+        <div id="search-results">
+            <div class="search-result" id="bing-results"></div>
+            <div class="search-result" id="sogou-results"></div>
+        </div>
+    </div>
+
+    <script>
+        var chatBox = document.getElementById("chat-box");
+        var messageInput = document.getElementById("message-input");
+        var sendButton = document.getElementById("send-button");
+        var bingResults = document.getElementById("bing-results");
+        var sogouResults = document.getElementById("sogou-results");
+
+        sendButton.addEventListener("click", search);
+
+        function search() {
+            var message = messageInput.value;
+            if (message.trim() !== "") {
+                var xhr = new XMLHttpRequest();
+                var url = "https://wmapi.wenbo.li/api/gpt/online.php";
+                var data = "message=" + encodeURIComponent(message);
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(data);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        var message = response.message;
+                        var answer = response.answer;
+                        displayMessage(message, answer);
+                        searchOnBing(message);
+                        searchOnSogou(message);
+                    }
+                };
+                messageInput.value = "";
+            }
+        }
+
+        function displayMessage(message, answer) {
+            var messageElement = document.createElement("p");
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+
+            var emptyLineElement = document.createElement("p");
+            emptyLineElement.textContent = "";
+            chatBox.appendChild(emptyLineElement);
+
+            var answerElement = document.createElement("p");
+            answerElement.textContent = answer;
+            chatBox.appendChild(answerElement);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function searchOnBing(query) {
+            var bingUrl = "https://www.bing.com/search?q=" + encodeURIComponent(query);
+            bingResults.innerHTML = '<iframe src="' + bingUrl + '" style="width: 100%; height: 100%; border: none;"></iframe>';
+        }
+
+        function searchOnSogou(query) {
+            var sogouUrl = "https://www.sogou.com/web?query=" + encodeURIComponent(query);
+            sogouResults.innerHTML = '<iframe src="' + sogouUrl + '" style="width: 100%; height: 100%; border: none;"></iframe>';
+        }
+    </script>
+</body>
+</html>
