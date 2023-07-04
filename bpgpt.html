@@ -1,7 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="zh">
-<head >
+<head>
     <meta charset="UTF-8">
     <title>GPT4</title>
     <style>
@@ -9,20 +8,75 @@
             font-family: Arial, sans-serif;
             transition: background-color 0.3s, color 0.3s;
             background-color: #333;
+            color: white;
         }
+
         #app {
             max-width: 800px;
             margin: auto;
             padding: 20px;
         }
+
         .chatbox {
             border: 1px solid black;
             height: 500px;
             margin-bottom: 10px;
             padding: 10px;
             overflow-y: auto;
-            background-color: white;
+            background-color: #333;
         }
+
+        .chatbox .message {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .chatbox .message .user-message {
+            align-self: flex-end;
+            margin-left: auto;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 70%;
+            word-break: break-word;
+            z-index: 1;
+        }
+
+        .chatbox .message .ai-message {
+            align-self: flex-start;
+            margin-right: auto;
+            background-color: black;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 70%;
+            word-break: break-word;
+            z-index: 1;
+        }
+
+        .chatbox .message .user-message::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -14px;
+            border-style: solid;
+            border-width: 8px 0 8px 15px;
+            border-color: transparent transparent transparent #4CAF50;
+            z-index: 2;
+        }
+
+        .chatbox .message .ai-message::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -14px;
+            border-style: solid;
+            border-width: 8px 15px 8px 0;
+            border-color: transparent #000000 transparent transparent;
+            z-index: 2;
+        }
+
         button {
             margin-top: 10px;
             padding: 5px 15px;
@@ -32,136 +86,162 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
             cursor: pointer;
             transition-duration: 0.4s;
-            background-color: #4CAF50; 
+            background-color: #4CAF50;
         }
+
         button:hover {
-            background-color: white; 
-            color: black; 
+            background-color: white;
+            color: black;
             border: 2px solid #4CAF50;
         }
+
         input[type=text] {
             width: 60%;
             padding: 5px;
         }
-        .night-mode .chatbox,
+
         .night-mode body {
-            background-color: #333;
-            color: white;
+            background-color: white;
+            color: black;
         }
+
+        .night-mode .chatbox {
+            background-color: #f3f3f3;
+            color: black;
+        }
+
         .progress-bar {
             width: 100%;
             background-color: #f3f3f3;
             display: none; /* Hide by default */
         }
+
         .progress-bar-inner {
             height: 5px;
             width: 0;
             background-color: #4caf50;
         }
-		.input-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-input[type=text] {
-    width: 60%;
-    margin-right: 10px;  /* Add some space between the input and the buttons */
-}
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
 
+        .input-container textarea {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .button-container {
+            display: flex;
+        }
+
+        .button-container button {
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
-<div id="app">
-    <h1>欢迎使用GPT4 白嫖君群号:183807510</h1>
-    <button onclick="toggleNightMode()">切换日夜模式</button>
-    <div class="chatbox" id="chatbox"></div>
-		<div class="input-container">
-    <input type="text" id="message" placeholder="请输入你的消息"/>
-    <button id="sendBtn" onclick="sendMessage()">➤</button>
-    <button onclick="clearChat()">清除对话</button>
-		</div>
-    <br>
-    <div class="progress-bar" id="progressBar">
-        <div class="progress-bar-inner" id="progressBarInner"></div>
+    <div id="app">
+        <h1>欢迎使用GPT4 白嫖君群号:183807510</h1>
+        <button onclick="toggleNightMode()">切换日夜模式</button>
+        <div class="chatbox" id="chatbox"></div>
+        <div class="input-container">
+            <textarea id="message" placeholder="请输入你的消息" rows="3" maxlength="200"></textarea>
+            <div class="button-container">
+                <button id="sendBtn" onclick="sendMessage()">➤</button>
+                <button onclick="clearChat()">清除对话</button>
+            </div>
+        </div>
+        <br>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-bar-inner" id="progressBarInner"></div>
+        </div>
     </div>
-</div>
 
-<script>
-var chatHistory = localStorage.getItem('chatHistory') || '';
+    <script>
+        var chatHistory = localStorage.getItem('chatHistory') || '';
+        var sendingMessage = false; // Track if a message is currently being sent
 
-document.getElementById('message').addEventListener('keydown', function(e) {
-    if (e.key == 'Enter' ) {
-       // e.preventDefault();
-        sendMessage();
-    }
-});
+        document.getElementById('message').addEventListener('keydown', function (e) {
+            if (e.key == 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
 
-function sendMessage() {
-    var btn = document.getElementById('sendBtn');
-    var msgBox = document.getElementById('message');
-    var chatbox = document.getElementById('chatbox');
+        function sendMessage() {
+            if (sendingMessage) return; // Prevent sending multiple messages simultaneously
 
-    if (msgBox.value.trim() === '') return;
+            var btn = document.getElementById('sendBtn');
+            var msgBox = document.getElementById('message');
+            var chatbox = document.getElementById('chatbox');
 
-    chatHistory += '\nUser: ' + msgBox.value;
-    chatbox.innerText = chatHistory;
-    msgBox.value = "";
+            if (msgBox.value.trim() === '') return;
 
-    btn.disabled = true; 
-    btn.style.opacity = "0.5";
+            chatHistory += '\n<div class="message"><div class="user-message">' + msgBox.value + '</div></div>';
+            chatbox.innerHTML = chatHistory;
+            msgBox.value = "";
 
-    var xhrPost = new XMLHttpRequest();
-    xhrPost.open('POST', "https://wmapi.wenbo.li/api/gpt/four/", true);
-    xhrPost.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhrPost.send("message=" + encodeURIComponent(chatHistory));
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            msgBox.disabled = true;
+            sendingMessage = true;
 
-    xhrPost.onreadystatechange = function() {
-        if (xhrPost.readyState == 4 && xhrPost.status == 200) { 
-            var result = JSON.parse(xhrPost.responseText);
+            var xhrPost = new XMLHttpRequest();
+            xhrPost.open('POST', "https://wmapi.wenbo.li/api/gpt/four/", true);
+            xhrPost.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhrPost.send("message=" + encodeURIComponent(chatHistory));
 
-            chatHistory += '\n' + result.answer;
-            chatbox.innerText = chatHistory;
-            localStorage.setItem('chatHistory', chatHistory);
+            xhrPost.onreadystatechange = function () {
+                if (xhrPost.readyState == 4 && xhrPost.status == 200) {
+                    var result = JSON.parse(xhrPost.responseText);
 
-            btn.disabled = false;
-            btn.style.opacity = "1";
+                    chatHistory += '\n<div class="message"><div class="ai-message">' + result.answer + '</div></div>';
+                    chatbox.innerHTML = chatHistory;
+                    localStorage.setItem('chatHistory', chatHistory);
+
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                    msgBox.disabled = false;
+                    sendingMessage = false;
+
+                    chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
+                }
+            };
+
+            xhrPost.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    document.getElementById("progressBarInner").style.width = event.loaded / event.total * 100 + "%";
+                }
+            };
+
+            xhrPost.onloadstart = function (event) {
+                document.getElementById("progressBar").style.display = "block";
+            };
+
+            xhrPost.onloadend = function (event) {
+                document.getElementById("progressBar").style.display = "none";
+            };
         }
-    };
 
-    xhrPost.onprogress = function(event) {
-        if (event.lengthComputable) {
-            document.getElementById("progressBarInner").style.width = event.loaded / event.total * 100 + "%";
+        if (chatHistory) {
+            chatbox.innerHTML = chatHistory;
         }
-    };
 
-    xhrPost.onloadstart = function(event) {
-        document.getElementById("progressBar").style.display = "block";
-    };
+        function clearChat() {
+            localStorage.removeItem('chatHistory');
+            chatbox.innerHTML = '';
+            chatHistory = '';
+        }
 
-    xhrPost.onloadend = function(event) {
-        document.getElementById("progressBar").style.display = "none";
-    };
-}
-
-// If there is saved chat history, display it on page load
-if (chatHistory) {
-    document.getElementById('chatbox').innerText = chatHistory;
-}
-
-function clearChat() {
-    localStorage.removeItem('chatHistory');
-    document.getElementById('chatbox').innerText = '';
-    chatHistory = '';
-}
-
-function toggleNightMode() {
-    document.body.classList.toggle("night-mode");
-}
-</script>
-
+        function toggleNightMode() {
+            document.body.classList.toggle("night-mode");
+        }
+    </script>
 </body>
 </html>
