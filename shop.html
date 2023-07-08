@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GPT商城-BoscoAI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .product {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .product h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .product p {
+      font-size: 14px;
+      color: #888;
+    }
+    
+    .product button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .product button:hover {
+      background-color: #45a049;
+    }
+    
+    /* 弹出窗口样式 */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .popup {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .popup img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    .popup p {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    .close {
+      color: #;
+      cursor: pointer;
+      font-size: 18px;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    /* 添加标题样式 */
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* 添加页脚样式 */
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+        <center>
+        <h1>GPT商城</h1>
+    </center>
+    <br>
+  </header>
+  
+  <div class="container">
+    <div class="product">
+      <img src="https://img1.baidu.com/it/u=131420517,321260290&fm=253&fmt=auto&app=138&f=JPEG?w=859&h=500" alt="Product 1" width="200" height="100">
+      <h2>账号+API Key 5刀余额</h2><h2 style="color:red;">价格:¥2.2</h2>
+      <p>商品明细：手工注册，API Key可回答125万汉字，格式：账号---密码---API Key，无法更改邮箱和密码</p>
+      <button onclick="showPopup()">下单</button>
+    </div>
+      <div class="container">
+    <div class="product">
+      <img src="https://img1.baidu.com/it/u=131420517,321260290&fm=253&fmt=auto&app=138&f=JPEG?w=859&h=500" alt="Product 1" width="200" height="100">
+      <h2>OpenAI账号 无余额</h2><h2 style="color:red;">价格:¥1</h2>
+      <p>商品明细：无余额，可登陆OpenAI官网免费使用，可绑卡升级120刀，格式：账号---密码---API Key，无法更改邮箱和密码</p>
+      <button onclick="showPopup()">下单</button>
+    </div>
+  </div>
+  
+  <!-- 弹出窗口 -->
+  <div class="overlay" id="overlay" onclick="hidePopup()">
+    <div class="popup" onclick="event.stopPropagation();">
+      <span class="close" onclick="hidePopup()">&times;</span>
+      <h2 style="color:red;">为保障安全，请添加客服 微信/QQ 进行下单！</h2>
+      <img src="https://lhygpt.github.io/static/images/C2B4F25F-6B77-4BC2-8E08-5B0723B5F0E0.jpeg" alt="weixin" style="width: 195px; height: auto;">
+      <img src="https://lhygpt.github.io/static/images/85311894-9F45-4549-9B54-34B948CF10B7.jpeg" alt="QQ" style="width: 195px; height: auto;">
+      <p>*仅支持支付宝支付*<p>
+    </div>
+  </div>
+  
+  <script>
+    function showPopup() {
+      document.getElementById("overlay").style.display = "flex";
+    }
+    
+    function hidePopup() {
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+
+  <footer>
+    <br>
+    <hr>
+    <p>2023 by BoscoAI</p>
+  </footer>
+</body>
+</html>
