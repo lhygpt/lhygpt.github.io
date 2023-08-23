@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>吃啥 美食随机选择器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      color: #333;
+      margin-top: 20px;
+    }
+    h3 {
+      color: #555;
+    }
+    p {
+      font-size: 24px;
+      color: #ff6b6b;
+      margin-top: 20px;
+    }
+    button {
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #e65a5a;
+    }
+  </style>
+</head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+<body>
+  <h1>今天吃啥^_^？</h1>
+  <hr>
+  <h3>随机选择中国美食</h3>
+  <p id="foodName">点击按钮随机选择一种美食</p>
+  <button id="randomButton">随机显示</button>
+
+  <script>
+ const chineseFoods = [
+  "北京烤鸭", "四川麻辣火锅", "广东点心", "上海小笼包", "湖南辣椒炒肉",
+  "西安肉夹馍", "杭州西湖醋鱼", "重庆小面", "福建闽南肉粽", "台湾夜市小吃",
+  "新疆大盘鸡", "云南过桥米线", "江苏扬州炒饭", "山东鲁菜", "安徽黄山炖鸡",
+  "河南烩面", "甘肃兰州拉面", "贵州苗家酸汤鱼", "海南文昌鸡", "内蒙古手抓羊肉",
+  "宁夏羊肉泡馍", "青海藏式奶茶", "黑龙江红肠炖土豆", "吉林延边冷面", "辽宁锅包肉",
+  "河北烧饼夹肉", "天津狗不理包子", "山西刀削面", "陕西凉皮", "湖北武汉热干面",
+  "浙江临安臭豆腐", "江西赣州米粉汤", "广西桂林米粉", "广东白切鸡", "香港蛋挞",
+  "澳门猪扒包", "北京豆汁儿", "四川棒棒鸡", "上海生煎包", "湖南臭豆腐",
+  "西安凉皮儿", "杭州龙井虾仁", "重庆酸辣粉", "福建沙县小吃", "台湾牛肉面",
+  "新疆羊肉串儿", "云南小锅米线", "江苏苏式月饼", "山东大馒头", "安徽毛豆腐",
+    ];
+
+    const randomButton = document.getElementById("randomButton");
+    const foodNameDisplay = document.getElementById("foodName");
+
+    randomButton.addEventListener("click", function() {
+      const randomIndex = Math.floor(Math.random() * chineseFoods.length);
+      const randomFood = chineseFoods[randomIndex];
+      foodNameDisplay.textContent = randomFood;
+    });
+  </script>
+</body>
+</html>
