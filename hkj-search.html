@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
+    <title>百度关键词自动搜索</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        textarea {
+            padding: 5px;
+            width: 80%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>百度自动搜索</h1>
+    <textarea id="keywords" placeholder="请输入关键词，每行一个"></textarea><br>
+    <button onclick="startSearch()"><h1>>>开始搜索<<</h1></button>
+
+    <script>
+        let keywordsArray = [];
+        let currentIndex = 0;
+
+        function startSearch() {
+            const keywordsInput = document.getElementById("keywords");
+            keywordsArray = keywordsInput.value.split("\n").filter(keyword => keyword.trim() !== "");
+            currentIndex = 0;
+            searchNextKeyword();
+        }
+
+        function searchNextKeyword() {
+            if (currentIndex < keywordsArray.length) {
+                const keyword = keywordsArray[currentIndex];
+                window.open(`https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`);
+                currentIndex++;
+                setTimeout(searchNextKeyword, 5000); // 5秒后搜索下一个关键词
+            } else {
+                alert("搜索完成");
+            }
+        }
+    </script>
+</body>
+</html>
