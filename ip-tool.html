@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Information Viewer</title>
+</head>
+<body>
+
+  <h1>Device Information Viewer</h1>
+
+  <h5>Public IP Address: <span id="public-ip"></span></h5>
+  <h5>Location: <span id="location"></span></h5>
+  <h5>Current Time in Location: <span id="current-time"></span></h5>
+  <h5>GPS Coordinates: <span id="gps-coordinates"></span></h5>
+  <h5>Local Device Time: <span id="local-device-time"></span></h5>
+<hr>
+<center><p><strong>— Produced by Bosco —</strong></p></center>
+  <script>
+    // Fetch public IP address and geolocation information using ipinfo.io
+    fetch('https://ipinfo.io/json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('public-ip').innerText = data.ip;
+        document.getElementById('location').innerText = `${data.city}, ${data.region}, ${data.country}`;
+
+        // Get time in the IP location's timezone
+        const timeZone = data.timezone || 'UTC';
+        const currentTimeElement = document.getElementById('current-time');
+
+        function updateCurrentTime() {
+          const currentTime = new Date().toLocaleString('en-US', {timeZone});
+          currentTimeElement.innerText = currentTime;
+        }
+
+        // Initial display of time
+        updateCurrentTime();
+
+        // Update time every second
+        setInterval(updateCurrentTime, 1000);
+
+        // Get device GPS coordinates
+        if ('geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+            document.getElementById('gps-coordinates').innerText = `Latitude: ${latitude}, Longitude: ${longitude}`;
+          }, error => {
+            console.error('Error getting GPS coordinates:', error.message);
+            document.getElementById('gps-coordinates').innerText = 'GPS coordinates not available';
+          });
+        } else {
+          document.getElementById('gps-coordinates').innerText = 'Geolocation is not supported on this device';
+        }
+
+        // Get local device time
+        const localDeviceTimeElement = document.getElementById('local-device-time');
+        const localDeviceTime = new Date().toLocaleString();
+        localDeviceTimeElement.innerText = localDeviceTime;
+      })
+      .catch(error => console.error('Error fetching IP info:', error));
+  </script>
+
+</body>
+</html>
