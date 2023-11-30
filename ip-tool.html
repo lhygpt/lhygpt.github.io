@@ -9,20 +9,25 @@
 
   <h1>Device Information Viewer</h1>
 
-  <h5>Public IP Address: <span id="public-ip"></span></h5>
-  <h5>Location: <span id="location"></span></h5>
-  <h5>Current Time in Location: <span id="current-time"></span></h5>
-  <h5>GPS Coordinates: <span id="gps-coordinates"></span></h5>
-  <h5>Local Device Time: <span id="local-device-time"></span></h5>
+  <p>Public IP Address: <span id="public-ip"></span></p>
+  <p>IP Location: <span id="location"></span></p>
+  <p>Current Time in Location: <span id="current-time"></span></p>
+  <p>Local Device Time: <span id="local-device-time"></span></p>
+  <p>GPS Coordinates: <span id="gps-coordinates"></span></p>
+  <p><span id="country"></span></p>
+  <p><span id="region"></span></p>
+  <p id="vpn-message" style="color: red; font-weight: bold;"></p>
 <hr>
-<center><p><strong>— Produced by Bosco —</strong></p></center>
+<p><strong><center>Produced by Bosco</p></strong></center>
   <script>
-    // Fetch public IP address and geolocation information using ipinfo.io
+    // Fetch public IP address, geolocation information, and local time using ipinfo.io
     fetch('https://ipinfo.io/json')
       .then(response => response.json())
       .then(data => {
         document.getElementById('public-ip').innerText = data.ip;
         document.getElementById('location').innerText = `${data.city}, ${data.region}, ${data.country}`;
+        document.getElementById('country').innerText = `Country: ${data.country}`;
+        document.getElementById('region').innerText = `Region: ${data.region}`;
 
         // Get time in the IP location's timezone
         const timeZone = data.timezone || 'UTC';
@@ -31,6 +36,16 @@
         function updateCurrentTime() {
           const currentTime = new Date().toLocaleString('en-US', {timeZone});
           currentTimeElement.innerText = currentTime;
+
+          // Check if device time and IP location time differ
+          const localDeviceTime = new Date().getTime();
+          const ipLocationTime = new Date(currentTime).getTime();
+
+          if (Math.abs(localDeviceTime - ipLocationTime) > 300000) {  // 5 minutes threshold
+            document.getElementById('vpn-message').innerText = 'Using VPN';
+          } else {
+            document.getElementById('vpn-message').innerText = '';
+          }
         }
 
         // Initial display of time
