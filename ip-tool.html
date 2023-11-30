@@ -8,18 +8,17 @@
 <body>
 
   <h1>Device Information Viewer</h1>
-
+<hr>
   <p>Public IP Address: <span id="public-ip"></span></p>
   <p>IP Location: <span id="location"></span></p>
-  <p>Current Time in Location: <span id="current-time"></span></p>
-  <p>GPS Coordinates: <span id="gps-coordinates"></span></p>
-  <p>Country: <span id="country"></span></p>
-  <p>Region: <span id="region"></span></p>
+  <p>Current Time in IP Location: <span id="current-time"></span></p>
   <p>Local Device Time: <span id="local-device-time"></span></p>
+  <p>GPS Coordinates: <span id="gps-coordinates"></span></p>
+  <p><span id="country"></span></p>
+  <p><span id="region"></span></p>
   <p id="vpn-message" style="color: red; font-weight: bold;"></p>
 <hr>
-<p><strong><center>Produced by Bosco</p></strong></center>
-  <script>
+<p><strong><center>— Produced by Bosco —</p></strong></center>
   <script>
     // Fetch public IP address, geolocation information, and local time using ipinfo.io
     fetch('https://ipinfo.io/json')
@@ -34,6 +33,7 @@
         const timeZone = data.timezone || 'UTC';
         const currentTimeElement = document.getElementById('current-time');
         const localDeviceTimeElement = document.getElementById('local-device-time');
+        const vpnMessageElement = document.getElementById('vpn-message');
 
         function updateCurrentTime() {
           const currentTime = new Date().toLocaleString('en-US', {timeZone});
@@ -44,11 +44,12 @@
           localDeviceTimeElement.innerText = localDeviceTime;
 
           const ipLocationTime = new Date(currentTime).getTime();
+          const localDeviceTimeUnix = new Date(localDeviceTime).getTime();
 
-          if (Math.abs(localDeviceTime - ipLocationTime) > 300000) {  // 5 minutes threshold
-            document.getElementById('vpn-message').innerText = 'Using VPN';
+          if (Math.abs(localDeviceTimeUnix - ipLocationTime) > 2000) {  // 2 seconds threshold
+            vpnMessageElement.innerText = 'Using VPN';
           } else {
-            document.getElementById('vpn-message').innerText = '';
+            vpnMessageElement.innerText = '';
           }
         }
 
