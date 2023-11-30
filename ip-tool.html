@@ -12,13 +12,14 @@
   <p>Public IP Address: <span id="public-ip"></span></p>
   <p>IP Location: <span id="location"></span></p>
   <p>Current Time in Location: <span id="current-time"></span></p>
-  <p>Local Device Time: <span id="local-device-time"></span></p>
   <p>GPS Coordinates: <span id="gps-coordinates"></span></p>
-  <p><span id="country"></span></p>
-  <p><span id="region"></span></p>
+  <p>Country: <span id="country"></span></p>
+  <p>Region: <span id="region"></span></p>
+  <p>Local Device Time: <span id="local-device-time"></span></p>
   <p id="vpn-message" style="color: red; font-weight: bold;"></p>
 <hr>
 <p><strong><center>Produced by Bosco</p></strong></center>
+  <script>
   <script>
     // Fetch public IP address, geolocation information, and local time using ipinfo.io
     fetch('https://ipinfo.io/json')
@@ -32,13 +33,16 @@
         // Get time in the IP location's timezone
         const timeZone = data.timezone || 'UTC';
         const currentTimeElement = document.getElementById('current-time');
+        const localDeviceTimeElement = document.getElementById('local-device-time');
 
         function updateCurrentTime() {
           const currentTime = new Date().toLocaleString('en-US', {timeZone});
           currentTimeElement.innerText = currentTime;
 
           // Check if device time and IP location time differ
-          const localDeviceTime = new Date().getTime();
+          const localDeviceTime = new Date().toLocaleString('en-US', {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone});
+          localDeviceTimeElement.innerText = localDeviceTime;
+
           const ipLocationTime = new Date(currentTime).getTime();
 
           if (Math.abs(localDeviceTime - ipLocationTime) > 300000) {  // 5 minutes threshold
@@ -66,11 +70,6 @@
         } else {
           document.getElementById('gps-coordinates').innerText = 'Geolocation is not supported on this device';
         }
-
-        // Get local device time
-        const localDeviceTimeElement = document.getElementById('local-device-time');
-        const localDeviceTime = new Date().toLocaleString();
-        localDeviceTimeElement.innerText = localDeviceTime;
       })
       .catch(error => console.error('Error fetching IP info:', error));
   </script>
