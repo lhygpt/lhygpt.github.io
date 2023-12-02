@@ -67,9 +67,9 @@
 
     <!-- search result -->
     <div id="searchResults">
+        <iframe id="bingFrame" class="searchFrame"></iframe>
         <iframe id="sogouFrame" class="searchFrame"></iframe>
         <iframe id="soFrame" class="searchFrame"></iframe>
-        <iframe id="bingFrame" class="searchFrame"></iframe>
     </div>
 
     <script>
@@ -93,7 +93,7 @@
             sogouFrame.src = sogouUrl;
 
             // Set the URL of the Bing search engine and refresh the iframe
-            const bingUrl = "https://www.bing.com/search?q=" + encodeURIComponent(searchString);
+            const bingUrl = "https://lhybosco-bingai.hf.space/search?q=" + encodeURIComponent(searchString);
             bingFrame.src = bingUrl;
         });
         searchButton.addEventListener("click", performSearch);
