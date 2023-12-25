@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: black;
+    }
+
+    #imageContainer {
+      position: relative;
+    }
+
+    #myImage {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      opacity: 0; /* 初始透明度为0 */
+      transition: opacity 3s; /* 过渡效果持续3秒 */
+    }
+  </style>
+</head>
+<body>
+
+<div id="imageContainer">
+  <img id="myImage" src="https://lhybosco-bingai.hf.space/images/blob?bcid=ssnGgV1VwXgGNw" alt="Your Image">
+</div>
+
+<script>
+  const myImage = document.getElementById('myImage');
+
+  // 监听页面加载完成事件
+  document.addEventListener('DOMContentLoaded', function() {
+    // 设置定时器，在页面加载后延迟1秒开始透明度渐变
+    setTimeout(function() {
+      myImage.style.opacity = 1; // 设置透明度为1，即完全不透明
+    }, 1000); // 1000毫秒 = 1秒
+
+    // 设置定时器，在透明度渐变完成后延迟2秒跳转到指定网页
+    setTimeout(function() {
+      window.location.href = 'https://chat-0h5m.onrender.com/';
+    }, 4000); // 4000毫秒 = 4秒（包括透明度渐变的3秒和额外的1秒）
+  });
+</script>
+
+</body>
+</html>
