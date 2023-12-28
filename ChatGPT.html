@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            background-color: #4f7cff;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 24px;
+            width: 100%;
+        }
+
+        .content {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .message {
+            margin: 10px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .message .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .message .bubble {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #fff;
+            word-wrap: break-word;
+        }
+
+        .message.system .bubble {
+            background-color: #4f7cff;
+        }
+
+        .message.user .bubble {
+            background-color: #9eea6a;
+        }
+
+        .footer {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+
+        .footer textarea {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        .footer button {
+            margin-left: 10px;
+            padding: 10px;
+            border: none;
+            outline: none;
+            background-color: #4f7cff;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ChatGPT</h1>
+        </div>
+        <div class="content" id="content">
+            <!-- 聊天内容 -->
+        </div>
+        <div class="footer">
+            <textarea id="input" placeholder="请输入您的消息"></textarea>
+            <button id="send">发送</button>
+        </div>
+    </div>
+    <script>
+        // 获取元素
+        var input = document.getElementById("input");
+        var send = document.getElementById("send");
+        var content = document.getElementById("content");
+
+        // 定义OpenAI API的URL和密钥
+        var api_url = "https://openai.1rmb.tk/v1/chat/completions";
+        var api_key = "sess-bwMWIufDuo09mhvFqhDbNtZMhiBtchTpVnPNeX2D"; // 请替换为您的API密钥
+
+        // 定义聊天消息数组
+        var messages = [];
+
+        // 定义发送消息的函数
+        function sendMessage() {
+            // 获取输入框的内容
+            var text = input.value.trim();
+            // 判断内容是否为空
+            if (text) {
+                // 将内容添加到消息数组中
+                messages.push({
+                    role: "user",
+                    content: text
+                });
+                // 清空输入框
+                input.value = "";
+                // 显示用户的消息
+                showUserMessage(text);
+                // 调用OpenAI API获取回复
+                getReply(text);
+            }
+        }
+
+        // 定义显示用户消息的函数
+        function showUserMessage(text) {
+            // 创建消息元素
+            var message = document.createElement("div");
+            message.className = "message user";
+            // 创建头像元素
+            var avatar = document.createElement("img");
+            avatar.className = "avatar";
+            avatar.src = "https://q.qlogo.cn/g?b=qq&nk=3121096037&s=100"; // 请替换为您的头像图片
+            // 创建气泡元素
+            var bubble = document.createElement("div");
+            bubble.className = "bubble";
+            bubble.textContent = text;
+            // 将头像和气泡添加到消息元素中
+            message.appendChild(bubble);
+            message.appendChild(avatar);
+            // 将消息元素添加到内容元素中
+            content.appendChild(message);
+            // 滚动到底部
+            content.scrollTop = content.scrollHeight;
+        }
+
+        // 定义显示系统消息的函数
+        function showSystemMessage(text) {
+            // 创建消息元素
+            var message = document.createElement("div");
+            message.className = "message system";
+            // 创建头像元素
+            var avatar = document.createElement("img");
+            avatar.className = "avatar";
+            avatar.src = "https://api.iowen.cn/favicon/openai.com.png"; // 请替换为您的头像图片
+            // 创建气泡元素
+            var bubble = document.createElement("div");
+            bubble.className = "bubble";
+            bubble.textContent = text;
+            // 将头像和气泡添加到消息元素中
+            message.appendChild(avatar);
+            message.appendChild(bubble);
+            // 将消息元素添加到内容元素中
+            content.appendChild(message);
+            // 滚动到底部
+            content.scrollTop = content.scrollHeight;
+        }
+
+        // 定义调用OpenAI API获取回复的函数
+        function getReply(text) {
+            // 创建XMLHttpRequest对象
+            var xhr = new XMLHttpRequest();
+            // 设置请求方法和URL
+            xhr.open("POST", api_url);
+            // 设置请求头
+            xhr.setRequestHeader("Authorization", "Bearer " + api_key);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            // 设置响应类型
+            xhr.responseType = "json";
+            // 设置请求超时时间
+            xhr.timeout = 10000;
+            // 设置请求成功的回调函数
+            xhr.onload = function() {
+                // 判断响应状态码是否为200
+                if (xhr.status === 200) {
+                    // 获取响应数据
+                    var response = xhr.response;
+                    // 判断响应数据是否存在
+                    if (response) {
+                        // 获取回复的文本
+                        var reply = response.choices[0].message.content;
+                        // 将回复添加到消息数组中
+                        messages.push({
+                            role: "system",
+                            content: reply
+                        });
+                        // 显示系统的消息
+                        showSystemMessage(reply);
+                    }
+                } else {
+                    // 显示错误信息
+                    showSystemMessage("抱歉，我无法回复您的消息。");
+                }
+            };
+            // 设置请求失败的回调函数
+            xhr.onerror = function() {
+                // 显示错误信息
+                showSystemMessage("抱歉，我无法回复您的消息。");
+            };
+            // 设置请求超时的回调函数
+            xhr.ontimeout = function() {
+                // 显示错误信息
+                showSystemMessage("抱歉，我无法回复您的消息。");
+            };
+            // 发送请求数据
+            xhr.send(JSON.stringify({
+                model: "gpt-3.5-turbo-0613", // 请根据您的需求选择合适的模型
+                messages: messages
+            }));
+        }
+
+        // 给发送按钮添加点击事件监听
+        send.addEventListener("click", sendMessage);
+        // 给输入框添加回车事件监听
+        input.addEventListener("keydown", function(event) {
+            // 判断按键是否为回车
+            if (event.keyCode === 13) {
+                // 阻止默认行为
+                event.preventDefault();
+                // 发送消息
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
