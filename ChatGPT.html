@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +14,21 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-color: #202020; /* 暗黑背景色 */
+            color: #fff; /* 文字颜色 */
         }
 
         .container {
             width: 100%;
             height: 100%;
-            background-color: #f4f4f4;
+            background-color: #333; /* 暗黑背景色 */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .header {
-            background-color: #4f7cff;
+            background-color: #444; /* 暗黑背景色 */
             color: #fff;
             text-align: center;
             padding: 15px 0;
@@ -64,33 +67,34 @@
             padding: 10px;
             border-radius: 10px;
             font-size: 16px;
-            color: #fff;
             word-wrap: break-word;
         }
 
         .message.system .bubble {
-            background-color: #4f7cff;
+            background-color: #444; /* 暗黑背景色 */
         }
 
         .message.user .bubble {
-            background-color: #9eea6a;
+            background-color: #4f7cff; /* 用户消息颜色 */
         }
 
         .footer {
             width: 100%;
             display: flex;
             align-items: center;
-            background-color: #f0f0f0;
+            background-color: #333; /* 暗黑背景色 */
             padding: 10px;
         }
 
         .footer textarea {
             flex-grow: 1;
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #555; /* 暗黑边框色 */
             border-radius: 5px;
             font-size: 16px;
             resize: none;
+            background-color: #444; /* 暗黑背景色 */
+            color: #fff; /* 文字颜色 */
         }
 
         .footer button {
@@ -106,6 +110,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -120,147 +125,199 @@
         </div>
     </div>
     <script>
-        // 获取元素
-        var input = document.getElementById("input");
-        var send = document.getElementById("send");
-        var content = document.getElementById("content");
+// 获取元素
+var input = document.getElementById("input");
+var send = document.getElementById("send");
+var content = document.getElementById("content");
 
-        // 定义OpenAI API的URL和密钥
-        var api_url = "https://openai.1rmb.tk/v1/chat/completions";
-        var api_key = "sess-bwMWIufDuo09mhvFqhDbNtZMhiBtchTpVnPNeX2D"; // 请替换为您的API密钥
+// 定义OpenAI API的URL和密钥
+var api_url = "https://openai.1rmb.tk/v1/chat/completions";
+var api_key = "sess-bwMWIufDuo09mhvFqhDbNtZMhiBtchTpVnPNeX2D"; // 请替换为您的API密钥
 
-        // 定义聊天消息数组
-        var messages = [];
+// 定义聊天消息数组
+var messages = [];
 
-        // 定义发送消息的函数
-        function sendMessage() {
-            // 获取输入框的内容
-            var text = input.value.trim();
-            // 判断内容是否为空
-            if (text) {
-                // 将内容添加到消息数组中
-                messages.push({
-                    role: "user",
-                    content: text
-                });
-                // 清空输入框
-                input.value = "";
-                // 显示用户的消息
-                showUserMessage(text);
-                // 调用OpenAI API获取回复
-                getReply(text);
-            }
-        }
-
-        // 定义显示用户消息的函数
-        function showUserMessage(text) {
-            // 创建消息元素
-            var message = document.createElement("div");
-            message.className = "message user";
-            // 创建头像元素
-            var avatar = document.createElement("img");
-            avatar.className = "avatar";
-            avatar.src = "https://q.qlogo.cn/g?b=qq&nk=3121096037&s=100"; // 请替换为您的头像图片
-            // 创建气泡元素
-            var bubble = document.createElement("div");
-            bubble.className = "bubble";
-            bubble.textContent = text;
-            // 将头像和气泡添加到消息元素中
-            message.appendChild(bubble);
-            message.appendChild(avatar);
-            // 将消息元素添加到内容元素中
-            content.appendChild(message);
-            // 滚动到底部
-            content.scrollTop = content.scrollHeight;
-        }
-
-        // 定义显示系统消息的函数
-        function showSystemMessage(text) {
-            // 创建消息元素
-            var message = document.createElement("div");
-            message.className = "message system";
-            // 创建头像元素
-            var avatar = document.createElement("img");
-            avatar.className = "avatar";
-            avatar.src = "https://api.iowen.cn/favicon/openai.com.png"; // 请替换为您的头像图片
-            // 创建气泡元素
-            var bubble = document.createElement("div");
-            bubble.className = "bubble";
-            bubble.textContent = text;
-            // 将头像和气泡添加到消息元素中
-            message.appendChild(avatar);
-            message.appendChild(bubble);
-            // 将消息元素添加到内容元素中
-            content.appendChild(message);
-            // 滚动到底部
-            content.scrollTop = content.scrollHeight;
-        }
-
-        // 定义调用OpenAI API获取回复的函数
-        function getReply(text) {
-            // 创建XMLHttpRequest对象
-            var xhr = new XMLHttpRequest();
-            // 设置请求方法和URL
-            xhr.open("POST", api_url);
-            // 设置请求头
-            xhr.setRequestHeader("Authorization", "Bearer " + api_key);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            // 设置响应类型
-            xhr.responseType = "json";
-            // 设置请求超时时间
-            xhr.timeout = 1000000;
-            // 设置请求成功的回调函数
-            xhr.onload = function() {
-                // 判断响应状态码是否为200
-                if (xhr.status === 200) {
-                    // 获取响应数据
-                    var response = xhr.response;
-                    // 判断响应数据是否存在
-                    if (response) {
-                        // 获取回复的文本
-                        var reply = response.choices[0].message.content;
-                        // 将回复添加到消息数组中
-                        messages.push({
-                            role: "system",
-                            content: reply
-                        });
-                        // 显示系统的消息
-                        showSystemMessage(reply);
-                    }
-                } else {
-                    // 显示错误信息
-                    showSystemMessage("抱歉，我无法回复您的消息。");
-                }
-            };
-            // 设置请求失败的回调函数
-            xhr.onerror = function() {
-                // 显示错误信息
-                showSystemMessage("抱歉，我无法回复您的消息。");
-            };
-            // 设置请求超时的回调函数
-            xhr.ontimeout = function() {
-                // 显示错误信息
-                showSystemMessage("抱歉，我无法回复您的消息。");
-            };
-            // 发送请求数据
-            xhr.send(JSON.stringify({
-                model: "gpt-3.5-turbo-0613", // 请根据您的需求选择合适的模型
-                messages: messages
-            }));
-        }
-
-        // 给发送按钮添加点击事件监听
-        send.addEventListener("click", sendMessage);
-        // 给输入框添加回车事件监听
-        input.addEventListener("keydown", function(event) {
-            // 判断按键是否为回车
-            if (event.keyCode === 13) {
-                // 阻止默认行为
-                event.preventDefault();
-                // 发送消息
-                sendMessage();
-            }
+// 定义发送消息的函数
+function sendMessage() {
+    // 获取输入框的内容
+    var text = input.value.trim();
+    // 判断内容是否为空
+    if (text) {
+        // 将内容添加到消息数组中
+        messages.push({
+            role: "user",
+            content: text
         });
+        // 清空输入框
+        input.value = "";
+        // 显示用户的消息
+        showUserMessage(text);
+        // 调用OpenAI API获取回复
+        getReply(text);
+    }
+}
+
+// 定义显示用户消息的函数
+function showUserMessage(text) {
+    // 创建消息元素
+    var message = document.createElement("div");
+    message.className = "message user";
+    // 创建头像元素
+    var avatar = document.createElement("img");
+    avatar.className = "avatar";
+    avatar.src = "https://q.qlogo.cn/g?b=qq&nk=3121096037&s=100"; // 请替换为您的头像图片
+    // 创建气泡元素
+    var bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+    // 将头像和气泡添加到消息元素中
+    message.appendChild(bubble);
+    message.appendChild(avatar);
+    // 将消息元素添加到内容元素中
+    content.appendChild(message);
+    // 滚动到底部
+    content.scrollTop = content.scrollHeight;
+}
+
+// 定义显示系统消息的函数
+function showSystemMessage(text) {
+    // 创建消息元素
+    var message = document.createElement("div");
+    message.className = "message system";
+    // 创建头像元素
+    var avatar = document.createElement("img");
+    avatar.className = "avatar";
+    avatar.src = "https://api.iowen.cn/favicon/openai.com.png"; // 请替换为您的头像图片
+    // 创建气泡元素
+    var bubble = document.createElement("div");
+    bubble.className = "bubble";
+    // 将头像和气泡添加到消息元素中
+    message.appendChild(avatar);
+    message.appendChild(bubble);
+    // 将消息元素添加到内容元素中
+    content.appendChild(message);
+    // 滚动到底部
+    content.scrollTop = content.scrollHeight;
+    // 调用逐字输出的函数
+    showTextByWord(bubble, text, 0);
+}
+
+// 定义逐字输出的函数
+function showTextByWord(element, text, index) {
+    // 判断索引是否小于文本长度
+    if (index < text.length) {
+        // 将当前索引的字追加到元素的文本内容中
+        element.textContent += text[index];
+        // 增加索引
+        index++;
+        // 设置延时递归调用
+        setTimeout(function() {
+            showTextByWord(element, text, index);
+        }, 2); // 每0.002秒输出一个字
+    }
+}
+
+// 定义调用OpenAI API获取回复的函数
+function getReply(text) {
+    // 创建XMLHttpRequest对象
+    var xhr = new XMLHttpRequest();
+    // 设置请求方法和URL
+    xhr.open("POST", api_url);
+    // 设置请求头
+    xhr.setRequestHeader("Authorization", "Bearer " + api_key);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    // 设置响应类型
+    xhr.responseType = "json";
+    // 设置请求超时时间
+    xhr.timeout = 10000000;
+    // 设置请求成功的回调函数
+    xhr.onload = function() {
+        // 判断响应状态码是否为200
+        if (xhr.status === 200) {
+            // 获取响应数据
+            var response = xhr.response;
+            // 判断响应数据是否存在
+            if (response) {
+                // 获取回复的文本
+                var reply = response.choices[0].message.content;
+                // 将回复添加到消息数组中
+                messages.push({
+                    role: "system",
+                    content: reply
+                });
+                // 显示系统的消息
+                showSystemMessage(reply);
+            }
+        } else {
+            // 显示错误信息
+            showSystemMessage("抱歉，我无法回复您的消息。");
+        }
+    };
+    // 设置请求失败的回调函数
+    xhr.onerror = function() {
+        // 显示错误信息
+        showSystemMessage("抱歉，我无法回复您的消息。");
+    };
+    // 设置请求超时的回调函数
+    xhr.ontimeout = function() {
+        // 显示错误信息
+        showSystemMessage("抱歉，我无法回复您的消息。");
+    };
+    // 发送请求数据
+    xhr.send(JSON.stringify({
+        model: "gpt-3.5-turbo-0613", // 请根据您的需求选择合适的模型
+        messages: messages
+    }));
+    // 显示加载效果
+    showLoading();
+}
+
+// 定义显示加载效果的函数
+function showLoading() {
+    // 创建加载元素
+    var loading = document.createElement("div");
+    loading.className = "loading";
+    // 创建动画元素
+    var animation = document.createElement("div");
+    animation.className = "animation";
+    // 创建圆点元素
+    var dot1 = document.createElement("div");
+    dot1.className = "dot";
+    var dot2 = document.createElement("div");
+    dot2.className = "dot";
+    var dot3 = document.createElement("div");
+    dot3.className = "dot";
+    // 将圆点添加到动画元素中
+    animation.appendChild(dot1);
+    animation.appendChild(dot2);
+    animation.appendChild(dot3);
+    // 将动画元素添加到加载元素中
+    loading.appendChild(animation);
+    // 将加载元素添加到内容元素中
+    content.appendChild(loading);
+    // 滚动到底部
+    content.scrollTop = content.scrollHeight;
+    // 设置定时器移除加载元素
+    setTimeout(function() {
+        content.removeChild(loading);
+    }, 1000); // 每1秒移除加载效果
+}
+
+// 给发送按钮添加点击事件监听
+send.addEventListener("click", sendMessage);
+// 给输入框添加回车事件监听
+input.addEventListener("keydown", function(event) {
+    // 判断按键是否为回车
+    if (event.keyCode === 13) {
+        // 阻止默认行为
+        event.preventDefault();
+        // 发送消息
+        sendMessage();
+    }
+});
+
     </script>
+
 </body>
+
 </html>
