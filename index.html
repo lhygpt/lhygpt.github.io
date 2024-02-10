@@ -1,160 +1,354 @@
+
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>BoscoAI官网-致力为用户提供免费优质的AI服务</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
+
         body {
+
             font-family: 'Arial', sans-serif;
+
             margin: 0;
+
             padding: 0;
+
             background-color: #f8f9fa;
+
             color: #333;
+
         }
+
+
 
         header {
+
             background-color: #343a40;
+
             color: #fff;
+
             text-align: center;
+
             padding: 1em 0;
+
         }
+
+
 
         h1 {
+
             color: #fff; /* 设置标题颜色为白色 */
+
         }
+
+
 
         section {
+
             max-width: 1200px;
+
             margin: 20px auto;
+
             padding: 20px;
+
             background-color: #fff;
+
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+
             border-radius: 10px;
+
         }
+
+
 
         h2 {
+
             color: #343a40;
+
         }
+
+
 
         p {
+
             line-height: 1.6;
+
             color: #555;
+
         }
+
+
 
         .main-content {
+
             display: flex;
+
             justify-content: space-around;
+
             align-items: flex-start;
+
             flex-wrap: wrap;
+
             margin-top: 20px;
+
         }
+
+
 
         .feature {
+
             flex: 1;
+
             margin: 20px;
+
             padding: 20px;
+
             background-color: #f4f4f4;
+
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
             border-radius: 10px;
+
             transition: background-color 0.3s ease-in-out;
+
             text-align: center;
+
         }
+
+
 
         .feature:hover {
+
             background-color: #e9ecef;
+
         }
+
+
 
         .feature a {
+
             text-decoration: none;
+
             color: inherit;
+
         }
+
+
 
         footer {
+
             text-align: center;
+
             padding: 1em 0;
+
             background-color: #343a40;
+
             color: #fff;
+
         }
+
+
 
         .social-media a {
+
             color: #fff;
+
             margin-right: 10px;
+
             transition: color 0.3s ease-in-out;
+
         }
+
+
 
         .social-media a:hover {
+
             color: #007bff;
+
         }
+
+
 
         .contact-info {
+
             text-align: center;
+
             margin-top: 20px;
+
         }
+
+
 
         .contact-info p {
+
             color: #555;
+
         }
 
+
+
         /* 新增样式 */
+
         .highlighted-text {
+
             color: #f8f9fa; /* 设置为浅白色 */
+
         }
+
     </style>
+
 </head>
 <body>
+    <!-- 公告弹窗开始 -->
+    <div id="announcement-modal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 20px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);">
+            <span id="close-modal" style="cursor: pointer; float: right; font-size: 30px;">&times;</span>
+            <h2>【公告】</h2>
+            <p>本站 <i>完全免费公益</i> 提供给各位用户使用和学习AI。为持续发展与优化服务，现急需用户赞助支持。每一份爱心捐赠，都将惠及更多有需要的人群，感恩您的慷慨解囊！</p>
+			<button id="close-btn" style="cursor: pointer; padding: 10px 15px; background-color: red; color: white; border: none; border-radius: 5px; margin-top: 20px;"><a href="https://bosco.icu/ai/pay.jpg">✅赞助支持</a></button>
+            <button id="close-btn" style="cursor: pointer; padding: 10px 15px; background-color: #3498db; color: white; border: none; border-radius: 5px; margin-top: 20px;">关闭公告</button>
+        </div>
+    </div>
+    <!-- 公告弹窗结束 -->
+
+<body>
+
     <header>
+
         <h1>BoscoAI官网</h1>
+
         <p class="highlighted-text">探索人工智能的奇妙世界</p>
+
     </header>
+
         <center>
-            <p>请选择您需要的AI服务：</p>
-            <a href="https://bosco.icu/ai/pay.jpg">【🌹赞助支持】</a>/<a href="https://lhygpt.github.io/BoscoAI_2.0_2024-02-09_23-24-03.apk">（🔥APP版下载🔥）</a>
+
+            <p>请选择您需要的AI服务：</p></center>
+	
+            <center><a href="https://bosco.icu/ai/BoscoAI_2.0_2024-02-09_23-24-03.apk">（🔥APP版下载🔥）</a>
+
         </center>
+
     <section>
+
         <div class="main-content">
+
             <div class="feature">
+
                 <a href="https://bosco.icu/ai/gpt3.5">
+
                     <h2>ChatGPT 3.5/4</h2>
+
                     <p>由OpenAI推出的自然语言生成人工智能，可满足日常使用。</p>
+
                 </a>
+
                 <a href="https://bosco.icu/ai/gpt4">（GPT4在此🤗）</a>
+
             </div>
+
             <div class="feature">
+
                 <a href="https://bosco.icu/ai/gemini">
+
                     <h2>Gemini-Pro</h2>
+
                     <p>由Google推出的人工智能，和GPT4差不多。</p>
+
                 </a>
+
                 </div>
+
             <div class="feature">
+
                 <a href="https://lhybosco-bingai.hf.space/images/create">
+
                     <h2>DALL-E 3</h2>
+
                     <p>由OpenAI推出的绘图AI大模型，不亚于 Midjourney。</p>
+
                 </a>
+
                 <a href="https://bosco.icu/bing/binglogin.png/">（📌登录教程）</a>
+
             </div>
+
             <div class="feature">
+
                 <h2>关于我们：</h2>
+
                 <p class="contact-info">成立：2023年4月8日<br>
+
 <hr>
+
                 <h3>合作友情链接：</h3>
+
 <a href="https://bosco.icu/">- Bosco -</a><br><br>
+
 <a href="https://mx.zhuzhuidc.cn/">- 墨星博客 -</a><br><br>
+
 <a href="https://chat-free.icu/">- Shawn AI -</a><br><br>
+
 <a href="https://www.komizv.top/">- Komi -</a><br><br>
+
 <a href="https://www.ecylt.top/">- 吴先生 -</a><br><br>
+
 <hr>
+
 <h3>申请合作：<h3><a href="mailto:lhybosco@163.com">lhybosco@163.com</a>
+
             </div>
+
     </section>
+
     <footer>
+
         <div class="social-media">
+
             官方Q群：<a href="https://qm.qq.com/q/VNMEoLXfG0" target="_blank" title="QQ"><i class="fab fa-qq"></i></a>
+
         </div>
+
         <div class="contact-info">
+
             <p class="highlighted-text">&copy; 2023 <a href="https://bosco.icu/">Bosco</a>AI.</p>
+
         </div>
+
     </footer>
+
 </body>
+    <script>
+        // 显示公告
+        function showAnnouncement() {
+            document.getElementById('announcement-modal').style.display = 'flex';
+        }
+
+        // 隐藏公告
+        function hideAnnouncement() {
+            document.getElementById('announcement-modal').style.display = 'none';
+        }
+
+        // 监听DOMContentLoaded事件，当页面加载完毕时显示公告
+        document.addEventListener('DOMContentLoaded', (event) => {
+            showAnnouncement();
+        });
+
+        // "关闭公告"按钮和关闭图标的事件监听器
+        document.getElementById('close-btn').addEventListener('click', hideAnnouncement);
+        document.getElementById('close-modal').addEventListener('click', hideAnnouncement);
+    </script>
+</body>
+
 </html>
+
