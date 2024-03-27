@@ -1,212 +1,81 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="https://ai.bosco.icu/chatgpt.svg">
-<meta name="description" content="BoscoAI-免费公益AI">
-<meta name="keywords" content="人工智能, ChatGPT, BoscoAI, AI服务, 免费AI, 免费GPT4, AI">
     <title>BoscoAI</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f1f1f1;
+        body, html {
             margin: 0;
             padding: 0;
-        }
-
-        /* Add hover effect for link-block and container */
-        .link-block:hover, .container:hover {
-            transform: scale(1.05); /* Scale up the element on hover */
-            transition: transform 0.3s ease; /* Add smooth transition */
-        }
-
-        /* Add hover effect for button */
-        .link-block button:hover {
-            color: red; /* Change text color on hover */
-        }
-
-        header {
-            position: relative;
-            color: #fff;
-            text-align: center;
-            padding: 70px 0;
-            background-image: url('https://ai.bosco.icu/chatgpt.svg'), url('https://api.kdcc.cn/');
-            background-size: contain, cover;
-            background-position: top center, center;
-            background-repeat: no-repeat, no-repeat;
-        }
-
-        .title {
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: transparent;
-            border-radius: 10px;
-            -webkit-text-stroke: 2px white;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease; /* Add smooth transition */
-        }
-
-        .container2 {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #808080;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        p {
-            color: #666;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4285f4;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-        }
-        .link-block {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: #f5f5f5;
-            gap: 10px;
-            justify-content: space-between; /* 使元素在水平方向上分散对齐 */
-            box-shadow: 5px 5px 10px gray; /* 添加阴影 */
-        }
-
-        .link-block img {
-            height: 80px;
-            width: 80px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .link-block span {
-            white-space: nowrap;
+            height: 100%;
             overflow: hidden;
-            text-overflow: ellipsis;
+            font-family: 'Arial', sans-serif;
         }
-        .link-block button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 30px;
-            color: #007bff;
-            float: right; /* 使元素在右边浮动 */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .splash {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #8FBC8F; /* 背景颜色 */
+            overflow: hidden;
+        }
+        .splash-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            z-index: 2;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        .splash-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+            z-index: 1;
+        }
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
-<header>
-    <h1 class="title">BoscoAI</h1>
-</header>
-<div class="container">
-<center><strong><h3>探索人工智能的奇妙世界</h3></strong></center>
-</div>
-<div class="container2">
- <h2 style="color: white;">请选择您需要的AI服务：</h2><br>
-
-	<div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://ai.bosco.icu/chatgpt.svg" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>ChatGPT 3.5</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-
-<div class="link-block">
-        <a href="https://lhybosco-chatai.hf.space/">
-  <img src="https://ai.bosco.icu/gpt4.svg" alt="copilot" />
-</a>
-        <a href="https://lhybosco-chatai.hf.space/" style="text-decoration: none; color: inherit;"><h3>ChatGPT 4.0</h3></a>
-        <button type="button"><a href="https://lhybosco-chatai.hf.space/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>	
-<div class="link-block"> <a href="https://lhybosco-bingai.hf.space/"> <img src="https://s1.cn.bing.net/rp/cgFxt_KTOKfjNNxtm5HS3A13G4I.jpg" alt="copilot" /></a> <a href="https://lhybosco-bingai.hf.space/" style="text-decoration: none; color: inherit;"><h3>BingAI</h3></a> <button type="button"><a href="https://lhybosco-bingai.hf.space/" style="text-decoration: none; color: inherit;">💬</a></button> </div><br>
-<div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://gd-hbimg.huaban.com/70daacad5993933e429c78a463de25296d1be93b1ffe-8sklRF" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>Midjourney</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">🎨</a></button>
-    </div><br>
-    
-<div class="link-block">
-    <a href="https://chat.bosco.icu/sd.html">
-  <img src="https://ai.bosco.icu/sd.jpg" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/sd.html" style="text-decoration: none; color: inherit;"><h3>Stable-diffusion</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/sd.html" style="text-decoration: none; color: inherit;">🎨</a></button>
-    </div><br>
-    
-    <div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://geminiapk.net/wp-content/uploads/2024/02/gemini.webp" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>Gemini</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-                <div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://ai.bosco.icu/palm.png" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>Palm</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-    <div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://ai.bosco.icu/Claude.jpg" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>Claude</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-        <div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://img.freepik.com/premium-vector/meta-company-logo_265339-667.jpg" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>Llma</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-            <div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="https://img.alicdn.com/imgextra/i1/O1CN01RBdOZH1DiXtigOchP_!!6000000000250-54-tps-200-200.apng" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>通义千问</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-                <div class="link-block">
-        <a href="https://chat.bosco.icu/">
-  <img src="data:image/png;base64,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" alt="copilot" />
-</a>
-        <a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;"><h3>ChatGLM</h3></a>
-        <button type="button"><a href="https://chat.bosco.icu/" style="text-decoration: none; color: inherit;">💬</a></button>
-    </div><br>
-    <br>
-</div>
-<div class="container">
-<center><strong><h3>成立：2023年4月8日<br><br>联系：<a href="mailto:lhybosco@163.com">lhybosco@163.com</a><br><br>🎈Q群：<a href="https://qm.qq.com/q/NjLRBiPgQ4">941860906</a><br><br>🤗Discord频道：<a href="https://discord.com/invite/macpdREj">BoscoAI社区</a>
-</h3></strong></center>
-</div>
-<footer>
-    <p style="text-align: center; color: #666; font-size: 12px;">&copy; 2023 BoscoAI. All rights reserved.</p>
-</footer>
+    <div class="container">
+        <div class="splash">
+            <div class="splash-circle"></div>
+            <div class="splash-text">BoscoAI</div>
+        </div>
+    </div>
+    <script>
+        // 你可以在这里添加JavaScript代码，例如用于加载完成后的页面跳转
+        setTimeout(function() {
+            window.location.href = 'https://ai.bosco.icu/'; // 你的网站链接
+        }, 1000); // 1秒后自动跳转
+    </script>
 </body>
 </html>
